@@ -3,11 +3,9 @@ package controllers
 import javax.inject.Inject
 
 import play.api.libs.json._
-import model.JsonReadWrite
 import model.JsonReadWrite._
-import play.api.Logger
 import play.api.mvc.{AbstractController, ControllerComponents}
-
+import service.JsonService._
 class JsonController @Inject()(cc: ControllerComponents)
     extends AbstractController(cc) {
 

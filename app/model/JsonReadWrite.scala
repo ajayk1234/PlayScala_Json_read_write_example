@@ -3,12 +3,11 @@ package model
 import play.api.libs.functional.syntax._
 import play.api.libs.json.Reads._
 import play.api.libs.json._
-import play.api.Logger
+
 case class User(val firstName: String, val lastName: String, val mobno: Long)
 
 object JsonReadWrite {
 
-  var users: List[User] = List()
   implicit val userRead = ((__ \ "user" \ "firstName"))
     .read[String]
     .and((__ \ "user" \ "lastName").read[String])
@@ -28,34 +27,6 @@ object JsonReadWrite {
         Right("Invalid")
     }
 
-  }
-
-  def getJson(): JsValue = {
-    Json.toJson(users)
-  }
-
-  def storetolist(user: User) {
-    users = users :+ user
-  }
-
-  def getUserByName(name: String):Option[User] = {
-    for (user <- users) {
-      if (name == user.firstName) {
-        Logger.debug("########## FOUND ############")
-        return Some(user)
-      }
-    }
-    return None
-  }
-
-  def getUserByMobno(mobno: Long): Option[User] = {
-    for (user <- users) {
-      if (mobno == user.mobno) {
-        Logger.debug("########## FOUND ############")
-        return Some(user)
-      }
-    }
-    return None
   }
 
 }
