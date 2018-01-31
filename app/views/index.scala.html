@@ -1,5 +1,8 @@
-@()
+@(userForm: Form[UserData])(implicit request: RequestHeader, messagesProvider: MessagesProvider)
 
-@main("Welcome to Play") {
-  <h1>Welcome to Play!</h1>
+@helper.form(action = routes.HomeController.doLogin ) {
+@helper.CSRF.formField
+@helper.inputText(userForm("email"))
+@helper.inputText(userForm("password"))
+<button type="submit" name="action" value="edit">Login</button>
 }

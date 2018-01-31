@@ -12,3 +12,8 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 POST /user controllers.JsonController.newUser
 GET  /user/name/:name    controllers.JsonController.findUserByName(name: String)
 GET  /user/mobno/:mobno    controllers.JsonController.findUserByMobno(mobno: Long)
+GET     /home                           controllers.HomeController.index
+
+
+GET     /login      controllers.HomeController.login
+POST    /doLogin    controllers.HomeController.doLogin
