@@ -12,6 +12,7 @@ object JsonService {
 
   def storetolist(user: User) {
     users = users :+ user
+    val msg = "User Added Succesfully"
   }
 
   def getJson(): JsValue = {
