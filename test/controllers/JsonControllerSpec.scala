@@ -66,6 +66,31 @@ class JsonControllerSpec
 
   }
 
+  "JsonController getAllUser() GET" should {
+
+
+    "render the all users " in {
+      val controller = new JsonController(stubControllerComponents())
+      val user1 = controller.newUser().apply(FakeRequest(
+        POST,
+        "/user",
+        FakeHeaders(),
+        AnyContentAsJson(Json.parse("""{"user": {"firstName": "cccccc","lastName": "qqq","mobno": 9876543210}}"""))))
+      val user2 = controller.newUser().apply(FakeRequest(
+        POST,
+        "/user",
+        FakeHeaders(),
+        AnyContentAsJson(Json.parse("""{"user": {"firstName": "ccc","lastName": "qqq","mobno": 9876543210}}"""))))
+
+      val home = controller.getAllUser().apply(FakeRequest())
+
+      status(home) mustBe OK
+      contentType(home) mustBe Some("application/json")
+
+    }
+
+  }
+
   "JsonController findUserrByName GET" should {
 
 
