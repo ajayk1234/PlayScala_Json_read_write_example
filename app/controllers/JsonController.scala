@@ -10,6 +10,8 @@ class JsonController @Inject()(cc: ControllerComponents)
     extends AbstractController(cc) {
 
   def newUser() = Action { request =>
+
+
     Ok(validate(request.body.asJson) match {
       case Left(value)  => storetolist(value)
       case Right(value) => Json.toJson(value)
@@ -24,14 +26,14 @@ class JsonController @Inject()(cc: ControllerComponents)
 
     getUserByName(name)match{
       case Some(user)=> Ok(Json.toJson(user))
-      case _ => BadRequest("No Found")
+      case _ => BadRequest("Not Found")
     }
   }
   def findUserByMobno(mobno: Long )=Action {
 
     getUserByMobno(mobno)match{
       case Some(user)=> Ok(Json.toJson(user))
-      case _ => BadRequest("No Found")
+      case _ => BadRequest("Not Found")
     }
   }
 

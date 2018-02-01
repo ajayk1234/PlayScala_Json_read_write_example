@@ -49,6 +49,23 @@ class JsonControllerSpec
     }
   }
 
+  //added two user to JsonController 
+
+  val controller = new JsonController(stubControllerComponents())
+  val user1 = controller.newUser().apply(FakeRequest(
+    POST,
+    "/user",
+    FakeHeaders(),
+    AnyContentAsJson(Json.parse("""{"user": {"firstName": "cccccc","lastName": "qqq","mobno": 9876543210}}"""))))
+  val user2 = controller.newUser().apply(FakeRequest(
+    POST,
+    "/user",
+    FakeHeaders(),
+    AnyContentAsJson(Json.parse("""{"user": {"firstName": "ccc","lastName": "qqq","mobno": 9876543210}}"""))))
+
+
+
+
   "JsonController newUser() POST" should {
 
     "add new user to list" in {
@@ -66,21 +83,13 @@ class JsonControllerSpec
 
   }
 
+
+
   "JsonController getAllUser() GET" should {
 
 
     "render the all users " in {
-      val controller = new JsonController(stubControllerComponents())
-      val user1 = controller.newUser().apply(FakeRequest(
-        POST,
-        "/user",
-        FakeHeaders(),
-        AnyContentAsJson(Json.parse("""{"user": {"firstName": "cccccc","lastName": "qqq","mobno": 9876543210}}"""))))
-      val user2 = controller.newUser().apply(FakeRequest(
-        POST,
-        "/user",
-        FakeHeaders(),
-        AnyContentAsJson(Json.parse("""{"user": {"firstName": "ccc","lastName": "qqq","mobno": 9876543210}}"""))))
+
 
       val home = controller.getAllUser().apply(FakeRequest())
 
@@ -95,17 +104,6 @@ class JsonControllerSpec
 
 
     "render the user object by username" in {
-      val controller = new JsonController(stubControllerComponents())
-      val user1 = controller.newUser().apply(FakeRequest(
-        POST,
-        "/user",
-        FakeHeaders(),
-        AnyContentAsJson(Json.parse("""{"user": {"firstName": "cccccc","lastName": "qqq","mobno": 9876543210}}"""))))
-      val user2 = controller.newUser().apply(FakeRequest(
-        POST,
-        "/user",
-        FakeHeaders(),
-        AnyContentAsJson(Json.parse("""{"user": {"firstName": "ccc","lastName": "qqq","mobno": 9876543210}}"""))))
 
       val home = controller.findUserByName("ccc").apply(FakeRequest())
 
@@ -119,17 +117,6 @@ class JsonControllerSpec
   "JsonController findUserByMobno" should {
 
     "render the user object by mobile number" in {
-      val controller = new JsonController(stubControllerComponents())
-      val user1 = controller.newUser().apply(FakeRequest(
-        POST,
-        "/user",
-        FakeHeaders(),
-        AnyContentAsJson(Json.parse("""{"user": {"firstName": "cccccc","lastName": "qqq","mobno": 9876543210}}"""))))
-      val user2 = controller.newUser().apply(FakeRequest(
-        POST,
-        "/user",
-        FakeHeaders(),
-        AnyContentAsJson(Json.parse("""{"user": {"firstName": "ccc","lastName": "qqq","mobno": 9876543210}}"""))))
 
       val home = controller.findUserByMobno(9876543210L).apply(FakeRequest())
 
@@ -139,4 +126,57 @@ class JsonControllerSpec
     }
 
   }
+
+
+  "Negative testcase for JsonController newUser POST " should {
+
+    "render Invalid data entered message on screen" in {
+      val controller = new JsonController(stubControllerComponents())
+      val home = controller.newUser().apply(FakeRequest(
+        POST,
+        "/user",
+        FakeHeaders(),
+        AnyContentAsJson(Json.parse("""[{"user": {"firstName": "ccc","lassstName": "qqq","mobno": 9876543210}}]"""))))
+
+      status(home) mustBe OK
+      contentType(home) mustBe Some("application/json")
+      contentAsString(home) must include("Invalid")
+
+    }
+
+  }
+
+
+
+
+
+  "Negative testcase for JsonController findUserrByName GET " should {
+
+
+    "render not found message on screen" in {
+
+      val home = controller.findUserByName("cccc").apply(FakeRequest())
+
+      status(home) mustBe BAD_REQUEST
+      contentAsString(home) must include("Not Found")
+
+    }
+
+  }
+
+
+  "Negative testcase for  JsonController findUserByMobno GET" should {
+
+    "render not found message on screen" in {
+
+
+      val home = controller.findUserByMobno(987643210L).apply(FakeRequest())
+
+      status(home) mustBe BAD_REQUEST
+      contentAsString(home) must include("Not Found")
+    }
+
+  }
+
+
 }
