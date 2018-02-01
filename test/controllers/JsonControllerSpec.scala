@@ -49,9 +49,9 @@ class JsonControllerSpec
     }
   }
 
-  "JsonController POST" should {
+  "JsonController newUser() POST" should {
 
-    "render the user page after posting Json object" in {
+    "add new user to list" in {
       val controller = new JsonController(stubControllerComponents())
       val home = controller.newUser().apply(FakeRequest(
         POST,
@@ -61,12 +61,15 @@ class JsonControllerSpec
 
       status(home) mustBe OK
       contentType(home) mustBe Some("application/json")
-      //      contentAsString(home) must include("User Added")
 
     }
-    
 
-    "render the user page after calling findUserByName" in {
+  }
+
+  "JsonController findUserrByName GET" should {
+
+
+    "render the user object by username" in {
       val controller = new JsonController(stubControllerComponents())
       val user1 = controller.newUser().apply(FakeRequest(
         POST,
@@ -86,8 +89,11 @@ class JsonControllerSpec
 
     }
 
+  }
 
-    "render the user page after calling findUserByMobile" in {
+  "JsonController findUserByMobno" should {
+
+    "render the user object by mobile number" in {
       val controller = new JsonController(stubControllerComponents())
       val user1 = controller.newUser().apply(FakeRequest(
         POST,
