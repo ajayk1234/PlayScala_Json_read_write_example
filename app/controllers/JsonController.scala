@@ -11,13 +11,13 @@ class JsonController @Inject()(cc: ControllerComponents)
 
   def newUser() = Action { request =>
     Ok(validate(request.body.asJson) match {
-      case Left(value)  => Json.toJson(storetolist(value).toString)
+      case Left(value)  => storetolist(value)
       case Right(value) => Json.toJson(value)
     })
   }
 
 
-  def allUser() = Action { request =>
+  def getAllUser() = Action { request =>
       Ok(getJson())
   }
   def findUserByName(name: String)=Action {

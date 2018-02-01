@@ -24,7 +24,7 @@ object JsonReadWrite {
       case JsSuccess(user: User, __) =>
         Left(user)
       case _ =>
-        Right("Invalid")
+        Right("Invalid data entered")
     }
 
   }

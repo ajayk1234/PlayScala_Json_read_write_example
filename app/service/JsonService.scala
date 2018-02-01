@@ -10,9 +10,9 @@ object JsonService {
 
   var users: List[User] = List()
 
-  def storetolist(user: User) {
+  def storetolist(user: User): JsValue = {
     users = users :+ user
-    val msg = "User Added Succesfully"
+    Json.toJson("User added successfully")
   }
 
   def getJson(): JsValue = {
